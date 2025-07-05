@@ -16,5 +16,14 @@ namespace CardSorting
             CardRank = cardRank;
             CardValue = cardValue;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != typeof(Card)) return false;
+
+            Card card = (Card)obj;
+            return CardSuit == card.CardSuit && CardRank == card.CardRank;
+        }
     }
 }

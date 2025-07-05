@@ -29,5 +29,24 @@ namespace CardSorting
 
             return rndList.ToArray();
         }
+
+        public Sprite GetCardImage(CardSuit cardSuit, CardRank cardRank)
+        {
+            foreach (var cardSuitData in cardSuits)
+            {
+                if (cardSuitData.cardSuit == cardSuit)
+                {
+                    foreach (var cardRankData in cardSuitData.cardRanks)
+                    {
+                        if (cardRankData.cardRank == cardRank)
+                        {
+                            return cardRankData.cardImage;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

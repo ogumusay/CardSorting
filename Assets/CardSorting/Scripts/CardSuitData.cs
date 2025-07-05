@@ -14,7 +14,7 @@ namespace CardSorting
         None = 0,
         Spades = 1,
         Diamonds = 2,
-        Clubs = 3,
-        Hearts = 4
+        Hearts = 3,
+        Clubs = 4
     }
 }

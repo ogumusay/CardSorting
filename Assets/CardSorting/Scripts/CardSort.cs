@@ -8,8 +8,9 @@ namespace CardSorting
     public class CardSort : MonoBehaviour
     {
         [SerializeField] private CardSettings _cardSettings;
+        [SerializeField] private CardView[] _cardViews;
         
-        /*
+        
         private Card[] _cards = new[]
         {
             new Card(CardSuit.Hearts, CardRank.Ace, 1),
@@ -24,10 +25,10 @@ namespace CardSorting
             new Card(CardSuit.Spades, CardRank.Three, 3),
             new Card(CardSuit.Diamonds, CardRank.Four, 4),
         };
-        */
+        
 
 
-
+        /*
         private Card[] _cards = new[]
         {
             new Card(CardSuit.Spades, CardRank.Queen, 10),
@@ -36,29 +37,76 @@ namespace CardSorting
             new Card(CardSuit.Spades, CardRank.Two, 4),
             new Card(CardSuit.Spades, CardRank.Ace, 1),
         };
+        */
 
         private void Sort()
         {
             
         }
 
-        [Button]
-        private void SortCardSuits()
-        {
-            var dictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS);
-            dictionary.Add(CardSuit.Spades, new List<Card>());
-            dictionary.Add(CardSuit.Diamonds, new List<Card>());
-            dictionary.Add(CardSuit.Clubs, new List<Card>());
-            dictionary.Add(CardSuit.Hearts, new List<Card>());
-            var consecutiveList = new List<Card>();
-            var nonConsecutiveList = new List<Card>();
+        #region 7-7-7 Sorting
 
-            var cards = _cards;
+        [Button]
+        public void SameRankSorting()
+        {
+            var cards = _cardSettings.GetRandomCards();
+            var dictionary = new Dictionary<CardRank, List<Card>>();
+            var sameRankList = new List<Card>();
+            var nonSameRankList = new List<Card>();
+            var list = new List<Card>();
             
             foreach (var card in cards)
             {
-                Debug.Log(card.CardSuit + " " + card.CardRank);
+                if (dictionary.ContainsKey(card.CardRank))
+                {
+                    dictionary[card.CardRank].Add(card);
+                }
+                else
+                {
+                    dictionary.Add(card.CardRank, new List<Card>(){card});
+                }
             }
+
+            foreach (var card in dictionary)
+            {
+                if (card.Value.Count >= GlobalConst.MIN_NUMBER_OF_SORTED_CARDS)
+                {
+                    sameRankList.AddRange(card.Value);
+                }
+                else
+                {
+                    nonSameRankList.AddRange(card.Value);
+                }
+            }
+            
+            list.AddRange(sameRankList);
+            list.AddRange(nonSameRankList);
+            for (int i = 0; i < list.Count; i++)
+            {
+                var card = list[i];
+                _cardViews[i].Init(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
+            }
+        }
+
+        #endregion
+        
+        #region 1-2-3 Sorting
+
+        [Button]
+        private void SortCardSuits()
+        {
+            var dictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS)
+            {
+                { CardSuit.Spades, new List<Card>() },
+                { CardSuit.Diamonds, new List<Card>() },
+                { CardSuit.Hearts, new List<Card>() },
+                { CardSuit.Clubs, new List<Card>() }
+            };
+            var consecutiveList = new List<Card>(); 
+            var nonConsecutiveList = new List<Card>();
+            var list = new List<Card>();
+
+            var cards = _cardSettings.GetRandomCards();
             
             foreach (var card in cards)
             {
@@ -71,19 +119,12 @@ namespace CardSorting
                 ConsecutiveSort(card.Value, consecutiveList, nonConsecutiveList);
             }
             
-            Debug.LogError(">>>>>");
-            Debug.LogError(">>>>>");
-            Debug.LogError("Consecutive List");
-            
-            foreach (var card in consecutiveList)
+            list.AddRange(consecutiveList);
+            list.AddRange(nonConsecutiveList);
+            for (int i = 0; i < list.Count; i++)
             {
-                Debug.Log(card.CardSuit + " " + card.CardRank);
-            }
-            
-            Debug.LogError("Non Consecutive List");
-            foreach (var card in nonConsecutiveList)
-            {
-                Debug.Log(card.CardSuit + " " + card.CardRank);
+                var card = list[i];
+                _cardViews[i].Init(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
             }
         }
         
@@ -160,6 +201,9 @@ namespace CardSorting
                     nonConsecutiveList.Add(list[j]);
                 }
             }
-        }       
+        }    
+        
+        
+        #endregion
     }
 }

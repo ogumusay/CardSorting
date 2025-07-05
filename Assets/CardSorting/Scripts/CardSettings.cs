@@ -8,7 +8,7 @@ namespace CardSorting
     {
         public CardSuitData[] cardSuits;
 
-        public Card[] GetRandomCards()
+        public List<Card> GetRandomCards()
         {
             var list = new List<Card>();
             var rndList = new List<Card>();
@@ -27,7 +27,7 @@ namespace CardSorting
                 list.RemoveAt(rnd);
             }
 
-            return rndList.ToArray();
+            return rndList;
         }
 
         public Sprite GetCardImage(CardSuit cardSuit, CardRank cardRank)

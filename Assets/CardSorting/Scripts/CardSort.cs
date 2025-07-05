@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace CardSorting
 {
@@ -10,8 +11,7 @@ namespace CardSorting
         [SerializeField] private CardSettings _cardSettings;
         [SerializeField] private CardView[] _cardViews;
         
-        /*
-        private Card[] _cards = new[]
+        private List<Card> _cardList = new()
         {
             new Card(CardSuit.Hearts, CardRank.Ace, 1),
             new Card(CardSuit.Spades, CardRank.Two, 2),
@@ -25,10 +25,10 @@ namespace CardSorting
             new Card(CardSuit.Spades, CardRank.Three, 3),
             new Card(CardSuit.Diamonds, CardRank.Four, 4),
         };
-        */
+        
 
-
-        private Card[] _cards = new[]
+        /*
+        private List<Card> _cards = new()
         {
             new Card(CardSuit.Clubs, CardRank.Seven, 7),
             new Card(CardSuit.Clubs, CardRank.Three, 3),
@@ -42,24 +42,36 @@ namespace CardSorting
             new Card(CardSuit.Clubs, CardRank.Two, 2),
             new Card(CardSuit.Hearts, CardRank.Two, 2),
         };
-
-        #region 7-7-7 Sorting
-
+        */
+        
         [Button]
         private void RandomCards()
         {
-            _cards = _cardSettings.GetRandomCards();
+            _cardList = _cardSettings.GetRandomCards();
+            UpdateCards();
         }
+
+        private void UpdateCards()
+        {
+            for (int i = 0; i < _cardList.Count; i++)
+            {
+                var card = _cardList[i];
+                _cardViews[i].Init(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
+            }
+        }
+        
+        #region 7-7-7 Sorting
         
         [Button]
         public void SameRankSorting()
         {
             var cardRankDictionary = new Dictionary<CardRank, List<Card>>();
-            var sameRankList = new List<Card>();
-            var nonSameRankList = new List<Card>();
             var sortedList = new List<Card>();
+            var sameRankLists = new List<List<Card>>();
+
+            InsertionSortByRank(_cardList);
             
-            foreach (var card in _cards)
+            foreach (var card in _cardList)
             {
                 if (cardRankDictionary.ContainsKey(card.CardRank))
                 {
@@ -73,24 +85,18 @@ namespace CardSorting
 
             foreach (var card in cardRankDictionary)
             {
-                if (card.Value.Count >= GlobalConst.MIN_NUMBER_OF_SORTED_CARDS)
-                {
-                    sameRankList.AddRange(card.Value);
-                }
-                else
-                {
-                    nonSameRankList.AddRange(card.Value);
-                }
+                sameRankLists.Add(card.Value);
             }
             
-            sortedList.AddRange(sameRankList);
-            sortedList.AddRange(nonSameRankList);
+            InsertionSortBySameRankQuantity(sameRankLists);
             
-            for (int i = 0; i < sortedList.Count; i++)
+            foreach (var card in sameRankLists)
             {
-                var card = sortedList[i];
-                _cardViews[i].Init(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
+                sortedList.AddRange(card);
             }
+
+            _cardList = sortedList;
+            UpdateCards();
         }
 
         #endregion
@@ -100,46 +106,43 @@ namespace CardSorting
         [Button]
         private void SortCardSuits()
         {
-            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS)
-            {
-                { CardSuit.Spades, new List<Card>() },
-                { CardSuit.Diamonds, new List<Card>() },
-                { CardSuit.Hearts, new List<Card>() },
-                { CardSuit.Clubs, new List<Card>() }
-            };
-            
-            var consecutiveList = new List<ConsecutiveSortData>();
+            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS) ;
+            var consecutiveSortResults = new List<ConsecutiveSortResult>();
             var sortedList = new List<Card>();
             
-            foreach (var card in _cards)
+            foreach (var card in _cardList)
             {
-                cardSuitDictionary[card.CardSuit].Add(card);
+                if (cardSuitDictionary.ContainsKey(card.CardSuit))
+                {
+                    cardSuitDictionary[card.CardSuit].Add(card);
+                }
+                else
+                {
+                    cardSuitDictionary.Add(card.CardSuit, new List<Card>(){card});
+                }
             }
 
             foreach (var card in cardSuitDictionary)
             {
-                InsertionSort(card.Value);
+                InsertionSortByRank(card.Value);
                 var consecutiveSortData = ConsecutiveSort(card.Value);
-                consecutiveList.Add(consecutiveSortData);
+                consecutiveSortResults.Add(consecutiveSortData);
             }
-
-            foreach (var consecutiveSortData in consecutiveList)
+            
+            foreach (var consecutiveSortData in consecutiveSortResults)
             {
                 sortedList.AddRange(consecutiveSortData.ConsecutiveList);
             }            
-            foreach (var consecutiveSortData in consecutiveList)
+            foreach (var consecutiveSortData in consecutiveSortResults)
             {
                 sortedList.AddRange(consecutiveSortData.NonConsecutiveList);
             }
-            
-            for (int i = 0; i < sortedList.Count; i++)
-            {
-                var card = sortedList[i];
-                _cardViews[i].Init(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
-            }
+
+            _cardList = sortedList;
+            UpdateCards();
         }
         
-        private void InsertionSort(List<Card> list)
+        private void InsertionSortByRank(List<Card> list)
         {
             for (int i = 0; i < list.Count - 1; i++)
             {
@@ -151,9 +154,23 @@ namespace CardSorting
                     }
                 }
             }
+        }             
+        
+        private void InsertionSortBySameRankQuantity(List<List<Card>> list)
+        {
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j > 0; j--)
+                {
+                    if (list[j - 1].Count < list[j].Count)
+                    {
+                        (list[j - 1], list[j]) = (list[j], list[j - 1]);
+                    }
+                }
+            }
         }           
         
-        private ConsecutiveSortData ConsecutiveSort(List<Card> list)
+        private ConsecutiveSortResult ConsecutiveSort(List<Card> list)
         {
             List<Card> consecutiveList = new();
             List<Card> nonConsecutiveList = new();
@@ -162,7 +179,7 @@ namespace CardSorting
             if (list.Count < minNumberOfSortedCards)
             {
                 nonConsecutiveList.AddRange(list);
-                return new ConsecutiveSortData()
+                return new ConsecutiveSortResult()
                 {
                     ConsecutiveList = consecutiveList,
                     NonConsecutiveList = nonConsecutiveList
@@ -220,13 +237,12 @@ namespace CardSorting
                 }
             }
             
-            return new ConsecutiveSortData()
+            return new ConsecutiveSortResult()
             {
                 ConsecutiveList = consecutiveList,
                 NonConsecutiveList = nonConsecutiveList
             };
         }    
-        
         
         #endregion
 
@@ -236,25 +252,25 @@ namespace CardSorting
         private void SmartSorting()
         {
             // CONSECUTIVE SORTING
-            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS)
-            {
-                { CardSuit.Spades, new List<Card>() },
-                { CardSuit.Diamonds, new List<Card>() },
-                { CardSuit.Hearts, new List<Card>() },
-                { CardSuit.Clubs, new List<Card>() }
-            };
-            
+            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS);
             var allCombinations = new List<List<Card>>();
             var mergedCombinations = new List<List<Card>>();
             
-            foreach (var card in _cards)
+            foreach (var card in _cardList)
             {
-                cardSuitDictionary[card.CardSuit].Add(card);
+                if (cardSuitDictionary.ContainsKey(card.CardSuit))
+                {
+                    cardSuitDictionary[card.CardSuit].Add(card);
+                }
+                else
+                {
+                    cardSuitDictionary.Add(card.CardSuit, new List<Card>(){card});
+                }
             }
 
             foreach (var card in cardSuitDictionary)
             {
-                InsertionSort(card.Value);
+                InsertionSortByRank(card.Value);
                 var sortData = ConsecutiveSort(card.Value);
                 allCombinations.AddRange(FindConsecutiveSubsequences(sortData.ConsecutiveList));
             }
@@ -262,7 +278,7 @@ namespace CardSorting
             // SAME RANK SORTING
             var cardRankDictionary = new Dictionary<CardRank, List<Card>>();
             
-            foreach (var card in _cards)
+            foreach (var card in _cardList)
             {
                 if (cardRankDictionary.ContainsKey(card.CardRank))
                 {
@@ -323,7 +339,7 @@ namespace CardSorting
                 }
             }
 
-            foreach (var card in _cards)
+            foreach (var card in _cardList)
             {
                 if (!bestCombination.Contains(card))
                 {
@@ -331,11 +347,8 @@ namespace CardSorting
                 }
             }
 
-            for (int i = 0; i < bestCombination.Count; i++)
-            {
-                var card = bestCombination[i];
-                _cardViews[i].Init(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
-            }
+            _cardList = bestCombination;
+            UpdateCards();
         }
 
         private bool CanCombine(List<Card> cardList1, List<Card> cardList2)
@@ -370,7 +383,7 @@ namespace CardSorting
         #endregion
     }
 
-    public class ConsecutiveSortData
+    public class ConsecutiveSortResult
     {
         public List<Card> ConsecutiveList;
         public List<Card> NonConsecutiveList;

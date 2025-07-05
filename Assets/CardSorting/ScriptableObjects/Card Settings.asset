@@ -99,47 +99,6 @@ MonoBehaviour:
     cardRanks:
     - cardRank: 1
       cardValue: 1
-      cardImage: {fileID: 21300000, guid: 73824031b58f2476fbdd960c10d453dc, type: 3}
-    - cardRank: 2
-      cardValue: 2
-      cardImage: {fileID: 21300000, guid: 0fc171ae17e1a464ca8f8e63ee39feac, type: 3}
-    - cardRank: 3
-      cardValue: 3
-      cardImage: {fileID: 21300000, guid: 02fba30ec23e54ddaa9c4d7c90acfac9, type: 3}
-    - cardRank: 4
-      cardValue: 4
-      cardImage: {fileID: 21300000, guid: 943acb76f29a44435b6bfe850a2e3252, type: 3}
-    - cardRank: 5
-      cardValue: 5
-      cardImage: {fileID: 21300000, guid: dfaed0f3d47b5418a89a154ac399c3c1, type: 3}
-    - cardRank: 6
-      cardValue: 6
-      cardImage: {fileID: 21300000, guid: 6ad14c94cea764873b549182bdad0c7f, type: 3}
-    - cardRank: 7
-      cardValue: 7
-      cardImage: {fileID: 21300000, guid: 379c8c563a6274c97a54475b03a4a0fe, type: 3}
-    - cardRank: 8
-      cardValue: 8
-      cardImage: {fileID: 21300000, guid: e974a297316cc477680f1423b0f5b7cc, type: 3}
-    - cardRank: 9
-      cardValue: 9
-      cardImage: {fileID: 21300000, guid: 4e2b3610cda424ab3ae82a7e6c0116bf, type: 3}
-    - cardRank: 10
-      cardValue: 10
-      cardImage: {fileID: 21300000, guid: 140093940a5c84ffa9924c2eadecde11, type: 3}
-    - cardRank: 11
-      cardValue: 10
-      cardImage: {fileID: 21300000, guid: 244eac9e851ea4a5baaaa7ac374f48d5, type: 3}
-    - cardRank: 12
-      cardValue: 10
-      cardImage: {fileID: 21300000, guid: 1c79335fb687844e3a45f988ba1fb203, type: 3}
-    - cardRank: 13
-      cardValue: 10
-      cardImage: {fileID: 21300000, guid: 08879bc285bae4b49a4ceb040eab5161, type: 3}
-  - cardSuit: 4
-    cardRanks:
-    - cardRank: 1
-      cardValue: 1
       cardImage: {fileID: 21300000, guid: 9da9efe3825074246ba47a228264cd69, type: 3}
     - cardRank: 2
       cardValue: 2
@@ -177,3 +136,44 @@ MonoBehaviour:
     - cardRank: 13
       cardValue: 10
       cardImage: {fileID: 21300000, guid: 03a34955d82994760b9b67d9639cd17f, type: 3}
+  - cardSuit: 4
+    cardRanks:
+    - cardRank: 1
+      cardValue: 1
+      cardImage: {fileID: 21300000, guid: 73824031b58f2476fbdd960c10d453dc, type: 3}
+    - cardRank: 2
+      cardValue: 2
+      cardImage: {fileID: 21300000, guid: 0fc171ae17e1a464ca8f8e63ee39feac, type: 3}
+    - cardRank: 3
+      cardValue: 3
+      cardImage: {fileID: 21300000, guid: 02fba30ec23e54ddaa9c4d7c90acfac9, type: 3}
+    - cardRank: 4
+      cardValue: 4
+      cardImage: {fileID: 21300000, guid: 943acb76f29a44435b6bfe850a2e3252, type: 3}
+    - cardRank: 5
+      cardValue: 5
+      cardImage: {fileID: 21300000, guid: dfaed0f3d47b5418a89a154ac399c3c1, type: 3}
+    - cardRank: 6
+      cardValue: 6
+      cardImage: {fileID: 21300000, guid: 6ad14c94cea764873b549182bdad0c7f, type: 3}
+    - cardRank: 7
+      cardValue: 7
+      cardImage: {fileID: 21300000, guid: 379c8c563a6274c97a54475b03a4a0fe, type: 3}
+    - cardRank: 8
+      cardValue: 8
+      cardImage: {fileID: 21300000, guid: e974a297316cc477680f1423b0f5b7cc, type: 3}
+    - cardRank: 9
+      cardValue: 9
+      cardImage: {fileID: 21300000, guid: 4e2b3610cda424ab3ae82a7e6c0116bf, type: 3}
+    - cardRank: 10
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 140093940a5c84ffa9924c2eadecde11, type: 3}
+    - cardRank: 11
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 244eac9e851ea4a5baaaa7ac374f48d5, type: 3}
+    - cardRank: 12
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 1c79335fb687844e3a45f988ba1fb203, type: 3}
+    - cardRank: 13
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 08879bc285bae4b49a4ceb040eab5161, type: 3}

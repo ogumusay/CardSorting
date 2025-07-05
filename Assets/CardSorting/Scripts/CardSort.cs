@@ -71,6 +71,7 @@ namespace CardSorting
 
             InsertionSortByRank(_cardList);
             
+            // Getting same rank cards
             foreach (var card in _cardList)
             {
                 if (cardRankDictionary.ContainsKey(card.CardRank))
@@ -110,6 +111,7 @@ namespace CardSorting
             var consecutiveSortResults = new List<ConsecutiveSortResult>();
             var sortedList = new List<Card>();
             
+            // Insert cards by cards suit
             foreach (var card in _cardList)
             {
                 if (cardSuitDictionary.ContainsKey(card.CardSuit))
@@ -122,6 +124,7 @@ namespace CardSorting
                 }
             }
 
+            // Sort cards by rank and get consecutive sequences
             foreach (var card in cardSuitDictionary)
             {
                 InsertionSortByRank(card.Value);
@@ -251,10 +254,11 @@ namespace CardSorting
         [Button]
         private void SmartSorting()
         {
-            // CONSECUTIVE SORTING
-            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS);
             var allCombinations = new List<List<Card>>();
             var mergedCombinations = new List<List<Card>>();
+            
+            // Get possible combinations from Consecutive Sorting
+            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS);
             
             foreach (var card in _cardList)
             {
@@ -275,7 +279,7 @@ namespace CardSorting
                 allCombinations.AddRange(FindConsecutiveSubsequences(sortData.ConsecutiveList));
             }
 
-            // SAME RANK SORTING
+            // Get possible combinations from Same Rank Sorting
             var cardRankDictionary = new Dictionary<CardRank, List<Card>>();
             
             foreach (var card in _cardList)
@@ -297,8 +301,8 @@ namespace CardSorting
                     allCombinations.AddRange(FindConsecutiveSubsequences(card.Value));
                 }
             }
-
-
+            
+            // Combine all possible combinations
             if (allCombinations.Count == 1)
             {
                 mergedCombinations.Add(allCombinations[0]);
@@ -320,8 +324,8 @@ namespace CardSorting
                     mergedCombinations.Add(tempCardList);
                 }
             }
-
-
+            
+            // Find the best combination
             List<Card> bestCombination = new List<Card>();
             int bestValuesSum = 0;
             foreach (var combination in mergedCombinations)

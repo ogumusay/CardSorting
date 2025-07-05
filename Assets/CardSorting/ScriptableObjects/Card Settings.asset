@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9a39a4fc51b40f088edd0159b23650, type: 3}
+  m_Name: Card Settings
+  m_EditorClassIdentifier: 
+  cardSuits:
+  - cardSuit: 1
+    cardRanks:
+    - cardRank: 1
+      cardValue: 1
+      cardImage: {fileID: 21300000, guid: 5f6929e78fd874af1a11467b479d3dc0, type: 3}
+    - cardRank: 2
+      cardValue: 2
+      cardImage: {fileID: 21300000, guid: 2c87a18522eee43dab155271b669318d, type: 3}
+    - cardRank: 3
+      cardValue: 3
+      cardImage: {fileID: 21300000, guid: 1ce6a0d2b970845eeba3d02e71bed524, type: 3}
+    - cardRank: 4
+      cardValue: 4
+      cardImage: {fileID: 21300000, guid: 95d748989877c4e128903bde44e87dce, type: 3}
+    - cardRank: 5
+      cardValue: 5
+      cardImage: {fileID: 21300000, guid: 1601f443a99f7468f8c24749db67a0fe, type: 3}
+    - cardRank: 6
+      cardValue: 6
+      cardImage: {fileID: 21300000, guid: 900748f2442614f58b84c1b9e6482203, type: 3}
+    - cardRank: 7
+      cardValue: 7
+      cardImage: {fileID: 21300000, guid: 07c129f2bdf7e4fef9b6be4341e8f3e1, type: 3}
+    - cardRank: 8
+      cardValue: 8
+      cardImage: {fileID: 21300000, guid: 77fbf53027f054e1797a54053399cd40, type: 3}
+    - cardRank: 9
+      cardValue: 9
+      cardImage: {fileID: 21300000, guid: de2061f9a1d44452da1b88b37957138d, type: 3}
+    - cardRank: 10
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 887974f1107bc4cdfbb8f2262cac9082, type: 3}
+    - cardRank: 11
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 41f6c1087bfc24159b9ef91e3dcc64a0, type: 3}
+    - cardRank: 12
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 22e53382f367c4f45905d8c1f7c46e0e, type: 3}
+    - cardRank: 13
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 033cb53fb0e2742cc8b45786b516d3ec, type: 3}
+  - cardSuit: 2
+    cardRanks:
+    - cardRank: 1
+      cardValue: 1
+      cardImage: {fileID: 21300000, guid: e2c18182d73354c06a47ce4aaa96fe44, type: 3}
+    - cardRank: 2
+      cardValue: 2
+      cardImage: {fileID: 21300000, guid: 0f6e67a3536194f93ab64fd0ea47d378, type: 3}
+    - cardRank: 3
+      cardValue: 3
+      cardImage: {fileID: 21300000, guid: 46dc6730ce4fb48c9a1322ffc4a42e3d, type: 3}
+    - cardRank: 4
+      cardValue: 4
+      cardImage: {fileID: 21300000, guid: 6506e453d2b2346fc860b8cd8f0904c4, type: 3}
+    - cardRank: 5
+      cardValue: 5
+      cardImage: {fileID: 21300000, guid: ae61fbe2397b74c68950e76cbe2ba701, type: 3}
+    - cardRank: 6
+      cardValue: 6
+      cardImage: {fileID: 21300000, guid: de9e47087a20748cc8878c4b437b2ec6, type: 3}
+    - cardRank: 7
+      cardValue: 7
+      cardImage: {fileID: 21300000, guid: d541f7b494c694b97b271f6dc4567e5d, type: 3}
+    - cardRank: 8
+      cardValue: 8
+      cardImage: {fileID: 21300000, guid: a8f6a3728099140fcb75b1137f56b83f, type: 3}
+    - cardRank: 9
+      cardValue: 9
+      cardImage: {fileID: 21300000, guid: a54512df45ba444b9b9c51ef00eee031, type: 3}
+    - cardRank: 10
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 4f5da2036d1e24a77926e6194891b79b, type: 3}
+    - cardRank: 11
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 1bfaeada1b4264399b06fd51dacd1f69, type: 3}
+    - cardRank: 12
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: c8fe4e242066a47caa738f3064b893f2, type: 3}
+    - cardRank: 13
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 7c97327bcbea44d059a75345ca724774, type: 3}
+  - cardSuit: 3
+    cardRanks:
+    - cardRank: 1
+      cardValue: 1
+      cardImage: {fileID: 21300000, guid: 73824031b58f2476fbdd960c10d453dc, type: 3}
+    - cardRank: 2
+      cardValue: 2
+      cardImage: {fileID: 21300000, guid: 0fc171ae17e1a464ca8f8e63ee39feac, type: 3}
+    - cardRank: 3
+      cardValue: 3
+      cardImage: {fileID: 21300000, guid: 02fba30ec23e54ddaa9c4d7c90acfac9, type: 3}
+    - cardRank: 4
+      cardValue: 4
+      cardImage: {fileID: 21300000, guid: 943acb76f29a44435b6bfe850a2e3252, type: 3}
+    - cardRank: 5
+      cardValue: 5
+      cardImage: {fileID: 21300000, guid: dfaed0f3d47b5418a89a154ac399c3c1, type: 3}
+    - cardRank: 6
+      cardValue: 6
+      cardImage: {fileID: 21300000, guid: 6ad14c94cea764873b549182bdad0c7f, type: 3}
+    - cardRank: 7
+      cardValue: 7
+      cardImage: {fileID: 21300000, guid: 379c8c563a6274c97a54475b03a4a0fe, type: 3}
+    - cardRank: 8
+      cardValue: 8
+      cardImage: {fileID: 21300000, guid: e974a297316cc477680f1423b0f5b7cc, type: 3}
+    - cardRank: 9
+      cardValue: 9
+      cardImage: {fileID: 21300000, guid: 4e2b3610cda424ab3ae82a7e6c0116bf, type: 3}
+    - cardRank: 10
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 140093940a5c84ffa9924c2eadecde11, type: 3}
+    - cardRank: 11
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 244eac9e851ea4a5baaaa7ac374f48d5, type: 3}
+    - cardRank: 12
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 1c79335fb687844e3a45f988ba1fb203, type: 3}
+    - cardRank: 13
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 08879bc285bae4b49a4ceb040eab5161, type: 3}
+  - cardSuit: 4
+    cardRanks:
+    - cardRank: 1
+      cardValue: 1
+      cardImage: {fileID: 21300000, guid: 9da9efe3825074246ba47a228264cd69, type: 3}
+    - cardRank: 2
+      cardValue: 2
+      cardImage: {fileID: 21300000, guid: aad0bb29885404624ac3062209fb66f7, type: 3}
+    - cardRank: 3
+      cardValue: 3
+      cardImage: {fileID: 21300000, guid: c893e5bf213ac4ae4a953571bdb16344, type: 3}
+    - cardRank: 4
+      cardValue: 4
+      cardImage: {fileID: 21300000, guid: 837fba866283548b293d549563f848e2, type: 3}
+    - cardRank: 5
+      cardValue: 5
+      cardImage: {fileID: 21300000, guid: d29146cdcaeaa426cbb0def77d695657, type: 3}
+    - cardRank: 6
+      cardValue: 6
+      cardImage: {fileID: 21300000, guid: 6e8b847d7a64d4cbe8b0b4b0289c3feb, type: 3}
+    - cardRank: 7
+      cardValue: 7
+      cardImage: {fileID: 21300000, guid: 95bbdbe8393eb41a98a8ecf2edfa10cc, type: 3}
+    - cardRank: 8
+      cardValue: 8
+      cardImage: {fileID: 21300000, guid: 21ad576b7674049e8b3008a9bc641459, type: 3}
+    - cardRank: 9
+      cardValue: 9
+      cardImage: {fileID: 21300000, guid: 7d0e64eda7f514d929546f1708558516, type: 3}
+    - cardRank: 10
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 7e1aee950e54c4ae887283df94f7cc74, type: 3}
+    - cardRank: 11
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: dbb933cc12532491c98a6efb51b9f1a3, type: 3}
+    - cardRank: 12
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 98bf0bba6defb49f6b8d47f728fd091a, type: 3}
+    - cardRank: 13
+      cardValue: 10
+      cardImage: {fileID: 21300000, guid: 03a34955d82994760b9b67d9639cd17f, type: 3}

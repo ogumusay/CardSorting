@@ -46,9 +46,14 @@ namespace CardSorting
             new Card(CardSuit.Hearts, CardRank.Two, 2),
         };
         */
+
+        private void Awake()
+        {
+            _cardList = _cardSettings.GetRandomCards();
+            InitCards();
+        }
         
-        [Button]
-        private void RandomCards()
+        public void DealNewCards()
         {
             _cardList = _cardSettings.GetRandomCards();
             InitCards();
@@ -98,7 +103,6 @@ namespace CardSorting
         
         #region 7-7-7 Sorting
         
-        [Button]
         public void SameRankSorting()
         {
             var cardRankDictionary = new Dictionary<CardRank, List<Card>>();
@@ -139,9 +143,8 @@ namespace CardSorting
         #endregion
         
         #region 1-2-3 Sorting
-
-        [Button]
-        private void SortCardSuits()
+        
+        public void SortCardSuits()
         {
             var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS) ;
             var consecutiveSortResults = new List<ConsecutiveSortResult>();
@@ -286,9 +289,8 @@ namespace CardSorting
         #endregion
 
         #region Smart Sorting
-
-        [Button]
-        private void SmartSorting()
+        
+        public void SmartSorting()
         {
             var allCombinations = new List<List<Card>>();
             var mergedCombinations = new List<List<Card>>();

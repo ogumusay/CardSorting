@@ -8,6 +8,8 @@ namespace CardSorting
     public class CardView : MonoBehaviour
     {
         [SerializeField] private Image _cardImage;
+        [SerializeField] private RectTransform _container;
+        public RectTransform Container => _container;
 
         public void Init(Sprite icon)
         {

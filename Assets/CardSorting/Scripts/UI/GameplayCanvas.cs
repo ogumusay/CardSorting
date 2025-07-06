@@ -1,0 +1,148 @@
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
+using Zenject;
+
+namespace CardSorting
+{
+    public class GameplayCanvas : MonoBehaviour
+    {
+        [SerializeField] private CardView[] _cardViews;
+        [SerializeField] private Transform[] _cardSockets;
+        [SerializeField] private CardLayoutView _cardLayoutView;
+        [SerializeField] private Transform _cardDealPoint;
+        [SerializeField] private Image _cardDealImage;
+        private int _currentBackgroundThemeIndex; 
+        
+        #region Injection
+
+        private BoardController _boardController;
+        private CardSettings _cardSettings;
+        
+        [Inject]
+        private void Construct(BoardController boardController,
+            CardSettings cardSettings)
+        {
+            _boardController = boardController;
+            _cardSettings = cardSettings;
+        }
+
+        #endregion
+
+        public void Initialize()
+        {
+            DealNewCards();
+        }
+
+        public void Dispose()
+        {
+            
+        }
+        
+        private async UniTaskVoid SetInitialCardPositions()
+        {
+            await UniTask.Yield();
+            await UniTask.Yield();
+            foreach (var cardView in _cardViews)
+            {
+                cardView.transform.position = _cardDealPoint.position;
+                cardView.ShowBackground();
+            }
+            
+            for (int i = 0; i < _boardController.CardList.Count; i++)
+            {
+                await UniTask.Delay(100);
+                var card = _boardController.CardList[i];
+                var cardView = GetCardView(card);
+                _cardLayoutView.SetCardViewIndex(cardView, i);
+                _cardLayoutView.SetPositionWithTween(i);
+                cardView.PlayFlipAnimation();
+            }
+        }
+        
+        public void DealNewCards()
+        {
+            _boardController.GetNewCards();
+            InitCards();
+            SetInitialCardPositions().Forget();
+        }
+        
+        private void InitCards()
+        {
+            for (int i = 0; i < _boardController.CardList.Count; i++)
+            {
+                var card = _boardController.CardList[i];
+                _cardViews[i].Init(card);
+                _cardViews[i].SetImage(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
+                _cardLayoutView.SetCardViewIndex(_cardViews[i], i);
+            }
+        }
+
+        public void SameRankSorting()
+        {
+            _boardController.SameRankSorting();
+            UpdateCardPositions();
+        }
+
+        public void SortCardSuits()
+        {
+            _boardController.SortCardSuits();
+            UpdateCardPositions();
+        }
+
+        public void SmartSorting()
+        {
+            _boardController.SmartSorting();
+            UpdateCardPositions();
+        }
+
+        public void InsertCard(int from, int to)
+        {
+            _boardController.InsertCard(from, to);
+            UpdateCardPositions();
+        }
+
+        private void UpdateCardPositions()
+        {
+            for (int i = 0; i < _boardController.CardList.Count; i++)
+            {
+                var card = _boardController.CardList[i];
+                _cardLayoutView.SetCardViewIndex(GetCardView(card), i);
+                _cardLayoutView.SetPositionWithTween(i);
+            }
+        }
+        
+        public void ChangeTheme()
+        {
+            if (_currentBackgroundThemeIndex < _cardSettings.cardBackgroundThemes.Length - 1)
+            {
+                _currentBackgroundThemeIndex++;
+            }
+            else
+            {
+                _currentBackgroundThemeIndex = 0;
+            }
+
+            var sprite = _cardSettings.cardBackgroundThemes[_currentBackgroundThemeIndex];
+            foreach (var cardView in _cardViews)
+            {
+                cardView.SetBackgroundImage(sprite);
+            }
+
+            _cardDealImage.sprite = sprite;
+        }
+        
+        private CardView GetCardView(Card card)
+        {
+            foreach (var cardView in _cardViews)
+            {
+                if (cardView.Card.Equals(card))
+                {
+                    return cardView;
+                }
+            }
+
+            return _cardViews[0];
+        }
+    }
+}

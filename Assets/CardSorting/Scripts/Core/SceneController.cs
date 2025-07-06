@@ -1,13 +1,23 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace CardSorting
 {
-    public class SceneController : MonoBehaviour
+    public class SceneController
     {
-        [SerializeField] private TransitionView _transitionView;
+        #region Injection
+
+        private TransitionView _transitionView;
         
+        [Inject]
+        private void Construct(TransitionView transitionView)
+        {
+            _transitionView = transitionView;
+        }
+        
+        #endregion
         
         public void LoadGameScene()
         {
@@ -16,16 +26,16 @@ namespace CardSorting
 
         private void StartLoadingGameSceneAsync()
         {
-            StartCoroutine(LoadGameSceneAsync());
+            LoadGameSceneAsync().Forget();
         }
 
-        private IEnumerator LoadGameSceneAsync()
+        private async UniTaskVoid LoadGameSceneAsync()
         {
             var asyncLoad = SceneManager.LoadSceneAsync(GlobalConst.GAME_SCENE_INDEX);
             
             while (!asyncLoad.isDone)
             {
-                yield return null;
+                await UniTask.Yield();
             }
             
             _transitionView.EndTransition(null);

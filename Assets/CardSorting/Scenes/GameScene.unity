@@ -341,8 +341,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1403824889}
-        m_TargetAssemblyTypeName: CardSorting.CardSort, Assembly-CSharp
+      - m_Target: {fileID: 514435727}
+        m_TargetAssemblyTypeName: CardSorting.UICanvas, Assembly-CSharp
         m_MethodName: DealNewCards
         m_Mode: 1
         m_Arguments:
@@ -474,8 +474,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1403824889}
-        m_TargetAssemblyTypeName: CardSorting.CardSort, Assembly-CSharp
+      - m_Target: {fileID: 514435727}
+        m_TargetAssemblyTypeName: CardSorting.UICanvas, Assembly-CSharp
         m_MethodName: ChangeTheme
         m_Mode: 1
         m_Arguments:
@@ -759,8 +759,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1403824889}
-        m_TargetAssemblyTypeName: CardSorting.CardSort, Assembly-CSharp
+      - m_Target: {fileID: 514435727}
+        m_TargetAssemblyTypeName: CardSorting.UICanvas, Assembly-CSharp
         m_MethodName: SortCardSuits
         m_Mode: 1
         m_Arguments:
@@ -821,6 +821,7 @@ GameObject:
   - component: {fileID: 514435725}
   - component: {fileID: 514435724}
   - component: {fileID: 514435723}
+  - component: {fileID: 514435727}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -913,6 +914,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &514435727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514435722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a06d54d0bff4861949405201a4f308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &604020299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,8 +1836,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1403824889}
-        m_TargetAssemblyTypeName: CardSorting.CardSort, Assembly-CSharp
+      - m_Target: {fileID: 514435727}
+        m_TargetAssemblyTypeName: CardSorting.UICanvas, Assembly-CSharp
         m_MethodName: SmartSorting
         m_Mode: 1
         m_Arguments:
@@ -2185,7 +2198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961fc5051e51f444c939caf482f4ca91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1403824888
+--- !u!1 &1329418712
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2193,62 +2206,56 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1403824890}
-  - component: {fileID: 1403824889}
+  - component: {fileID: 1329418714}
+  - component: {fileID: 1329418713}
+  - component: {fileID: 1329418715}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: SceneContext
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1403824889
+--- !u!114 &1329418713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403824888}
+  m_GameObject: {fileID: 1329418712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1797ad67887742eab7f87ccf2224df7, type: 3}
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cardSettings: {fileID: 11400000, guid: deee9ced106324534848cca706963a7d, type: 2}
-  _cardViews:
-  - {fileID: 2135179825110323122}
-  - {fileID: 1532778911}
-  - {fileID: 1619905750}
-  - {fileID: 1899974462}
-  - {fileID: 1295870167}
-  - {fileID: 45562813}
-  - {fileID: 873772787}
-  - {fileID: 2142789856}
-  - {fileID: 1223747248}
-  - {fileID: 199736904}
-  - {fileID: 1863618152}
-  _cardSockets:
-  - {fileID: 2135179825110323121}
-  - {fileID: 1532778910}
-  - {fileID: 1619905749}
-  - {fileID: 1899974461}
-  - {fileID: 1295870166}
-  - {fileID: 45562812}
-  - {fileID: 873772786}
-  - {fileID: 2142789855}
-  - {fileID: 1223747247}
-  - {fileID: 199736903}
-  - {fileID: 1863618151}
-  _cardLayoutView: {fileID: 2024375972}
-  _cardDealPoint: {fileID: 1915870184}
-  _cardDealImage: {fileID: 1915870185}
---- !u!4 &1403824890
+  _scriptableObjectInstallers:
+  - {fileID: 11400000, guid: a74cc1c0e50664e31b09a85f535ed38b, type: 2}
+  _monoInstallers:
+  - {fileID: 1329418715}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &1329418714
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403824888}
+  m_GameObject: {fileID: 1329418712}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -2257,6 +2264,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1329418715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329418712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a0a0f3ab069413587a26eedef945e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1532778909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2823,8 +2842,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1403824889}
-        m_TargetAssemblyTypeName: CardSorting.CardSort, Assembly-CSharp
+      - m_Target: {fileID: 514435727}
+        m_TargetAssemblyTypeName: CardSorting.UICanvas, Assembly-CSharp
         m_MethodName: SameRankSorting
         m_Mode: 1
         m_Arguments:
@@ -3395,9 +3414,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1993088964}
+  - component: {fileID: 1993088965}
   - component: {fileID: 1993088963}
   - component: {fileID: 1993088962}
   - component: {fileID: 1993088961}
+  - component: {fileID: 1993088966}
   m_Layer: 5
   m_Name: GameplayCanvas
   m_TagString: Untagged
@@ -3489,6 +3510,63 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1993088965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993088960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f4c647370ae414aab38d00a2083341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardViews:
+  - {fileID: 2135179825110323122}
+  - {fileID: 1532778911}
+  - {fileID: 1619905750}
+  - {fileID: 1899974462}
+  - {fileID: 1295870167}
+  - {fileID: 45562813}
+  - {fileID: 873772787}
+  - {fileID: 2142789856}
+  - {fileID: 1223747248}
+  - {fileID: 199736904}
+  - {fileID: 1863618152}
+  _cardSockets:
+  - {fileID: 2135179825110323121}
+  - {fileID: 1532778910}
+  - {fileID: 1619905749}
+  - {fileID: 1899974461}
+  - {fileID: 1295870166}
+  - {fileID: 45562812}
+  - {fileID: 873772786}
+  - {fileID: 2142789855}
+  - {fileID: 1223747247}
+  - {fileID: 199736903}
+  - {fileID: 1863618151}
+  _cardLayoutView: {fileID: 2024375972}
+  _cardDealPoint: {fileID: 1915870184}
+  _cardDealImage: {fileID: 1915870185}
+--- !u!114 &1993088966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993088960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 1993088965}
+  _identifier: 
+  _useSceneContext: 0
+  _context: {fileID: 0}
+  _bindType: 0
 --- !u!1 &2024375969
 GameObject:
   m_ObjectHideFlags: 0
@@ -3589,7 +3667,6 @@ MonoBehaviour:
   - {fileID: 1863618153}
   _rotation: 10
   _height: 50
-  _cardSort: {fileID: 1403824889}
 --- !u!1001 &2142789854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3895,7 +3972,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
-  - {fileID: 1403824890}
   - {fileID: 514435726}
   - {fileID: 1993088964}
   - {fileID: 675706680}
+  - {fileID: 1329418714}

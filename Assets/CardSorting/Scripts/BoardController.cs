@@ -1,20 +1,22 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Zenject;
 
 namespace CardSorting
 {
-    public class CardSort : MonoBehaviour
+    public class BoardController
     {
-        [SerializeField] private CardSettings _cardSettings;
-        [SerializeField] private CardView[] _cardViews;
-        [SerializeField] private Transform[] _cardSockets;
-        [SerializeField] private CardLayoutView _cardLayoutView;
-        [SerializeField] private Transform _cardDealPoint;
-        [SerializeField] private Image _cardDealImage;
-        private int _currentBackgroundThemeIndex; 
+        #region Injection
+
+        private CardSettings _cardSettings;
+
+        [Inject]
+        private void Construct(CardSettings cardSettings)
+        {
+            _cardSettings = cardSettings;
+        }
+        
+        #endregion
         
         private List<Card> _cardList = new()
         {
@@ -30,91 +32,22 @@ namespace CardSorting
             new Card(CardSuit.Spades, CardRank.Three, 3),
             new Card(CardSuit.Diamonds, CardRank.Four, 4),
         };
-        
 
-        /*
-        private List<Card> _cards = new()
-        {
-            new Card(CardSuit.Clubs, CardRank.Seven, 7),
-            new Card(CardSuit.Clubs, CardRank.Three, 3),
-            new Card(CardSuit.Clubs, CardRank.King, 10),
-            new Card(CardSuit.Hearts, CardRank.Ten, 10),
-            new Card(CardSuit.Diamonds, CardRank.Ten, 10),
-            new Card(CardSuit.Spades, CardRank.Nine, 9),
-            new Card(CardSuit.Diamonds, CardRank.Four, 4),
-            new Card(CardSuit.Diamonds, CardRank.Two, 2),
-            new Card(CardSuit.Clubs, CardRank.Ace, 1),
-            new Card(CardSuit.Clubs, CardRank.Two, 2),
-            new Card(CardSuit.Hearts, CardRank.Two, 2),
-        };
-        */
+        public List<Card> CardList => _cardList;
 
-        private void Awake()
+        public void Initialize()
         {
-            _cardList = _cardSettings.GetRandomCards();
-            InitCards();
-            StartCoroutine(SetInitialCardPositions());
-        }
-
-        private IEnumerator SetInitialCardPositions()
-        {
-            yield return new WaitForEndOfFrame();
-            foreach (var cardView in _cardViews)
-            {
-                cardView.transform.position = _cardDealPoint.position;
-                cardView.ShowBackground();
-            }
             
-            for (int i = 0; i < _cardList.Count; i++)
-            {
-                yield return new WaitForSeconds(0.1f);
-                var card = _cardList[i];
-                var cardView = GetCardView(card);
-                _cardLayoutView.SetCardViewIndex(cardView, i);
-                _cardLayoutView.SetPositionWithTween(i);
-                cardView.PlayFlipAnimation();
-            }
+        }
+
+        public void Dispose()
+        {
+            
         }
         
-        public void DealNewCards()
+        public void GetNewCards()
         {
             _cardList = _cardSettings.GetRandomCards();
-            InitCards();
-            StartCoroutine(SetInitialCardPositions());
-        }
-
-        private void InitCards()
-        {
-            for (int i = 0; i < _cardList.Count; i++)
-            {
-                var card = _cardList[i];
-                _cardViews[i].Init(card);
-                _cardViews[i].SetImage(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
-                _cardLayoutView.SetCardViewIndex(_cardViews[i], i);
-            }
-        }
-
-        private void UpdateCardPositions()
-        {
-            for (int i = 0; i < _cardList.Count; i++)
-            {
-                var card = _cardList[i];
-                _cardLayoutView.SetCardViewIndex(GetCardView(card), i);
-                _cardLayoutView.SetPositionWithTween(i);
-            }
-        }
-
-        private CardView GetCardView(Card card)
-        {
-            foreach (var cardView in _cardViews)
-            {
-                if (cardView.Card.Equals(card))
-                {
-                    return cardView;
-                }
-            }
-
-            return _cardViews[0];
         }
 
         public void InsertCard(int from, int to)
@@ -122,27 +55,6 @@ namespace CardSorting
             var tempCard = _cardList[from];
             _cardList.RemoveAt(from);
             _cardList.Insert(to, tempCard);
-            UpdateCardPositions();
-        }
-
-        public void ChangeTheme()
-        {
-            if (_currentBackgroundThemeIndex < _cardSettings.cardBackgroundThemes.Length - 1)
-            {
-                _currentBackgroundThemeIndex++;
-            }
-            else
-            {
-                _currentBackgroundThemeIndex = 0;
-            }
-
-            var sprite = _cardSettings.cardBackgroundThemes[_currentBackgroundThemeIndex];
-            foreach (var cardView in _cardViews)
-            {
-                cardView.SetBackgroundImage(sprite);
-            }
-
-            _cardDealImage.sprite = sprite;
         }
         
         #region 7-7-7 Sorting
@@ -181,7 +93,6 @@ namespace CardSorting
             }
 
             _cardList = sortedList;
-            UpdateCardPositions();
         }
 
         #endregion
@@ -225,7 +136,6 @@ namespace CardSorting
             }
 
             _cardList = sortedList;
-            UpdateCardPositions();
         }
         
         private void InsertionSortByRank(List<Card> list)
@@ -434,7 +344,6 @@ namespace CardSorting
             }
 
             _cardList = bestCombination;
-            UpdateCardPositions();
         }
 
         private bool CanCombine(List<Card> cardList1, List<Card> cardList2)

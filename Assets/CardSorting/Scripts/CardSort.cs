@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -60,6 +61,7 @@ namespace CardSorting
                 var card = _cardList[i];
                 _cardViews[i].Init(card);
                 _cardViews[i].SetImage(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
+                _cardLayoutView.SetCardViewIndex(_cardViews[i], i);
             }
         }
 
@@ -68,10 +70,9 @@ namespace CardSorting
             for (int i = 0; i < _cardList.Count; i++)
             {
                 var card = _cardList[i];
-                _cardLayoutView.ChangeCardViewIndex(GetCardView(card), i);
+                _cardLayoutView.SetCardViewIndex(GetCardView(card), i);
                 _cardLayoutView.SetPositionWithTween(i);
             }
-
         }
 
         private CardView GetCardView(Card card)
@@ -85,6 +86,14 @@ namespace CardSorting
             }
 
             return _cardViews[0];
+        }
+
+        public void InsertCard(int from, int to)
+        {
+            var tempCard = _cardList[from];
+            _cardList.RemoveAt(from);
+            _cardList.Insert(to, tempCard);
+            UpdateCardPositions();
         }
         
         #region 7-7-7 Sorting

@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardImage: {fileID: 954119640435731454}
-  _container: {fileID: 1662828149934880996}
+  _rectTransform: {fileID: 1662828149934880996}

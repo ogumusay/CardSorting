@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d585a4a272b24ec98acb9e3225e0c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &873772788 stripped
+--- !u!114 &873772791 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3834193308902106554, guid: f7078b27289c6415a9c768fbcc3f5cb9, type: 3}
   m_PrefabInstance: {fileID: 873772785}
@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d585a4a272b24ec98acb9e3225e0c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1223747249 stripped
+--- !u!114 &1223747252 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3834193308902106554, guid: f7078b27289c6415a9c768fbcc3f5cb9, type: 3}
   m_PrefabInstance: {fileID: 1223747246}
@@ -1275,7 +1275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d585a4a272b24ec98acb9e3225e0c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1532778912 stripped
+--- !u!114 &1532778915 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3834193308902106554, guid: f7078b27289c6415a9c768fbcc3f5cb9, type: 3}
   m_PrefabInstance: {fileID: 1532778909}
@@ -1431,7 +1431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d585a4a272b24ec98acb9e3225e0c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1619905751 stripped
+--- !u!114 &1619905754 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3834193308902106554, guid: f7078b27289c6415a9c768fbcc3f5cb9, type: 3}
   m_PrefabInstance: {fileID: 1619905748}
@@ -1735,7 +1735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d585a4a272b24ec98acb9e3225e0c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1899974463 stripped
+--- !u!114 &1899974466 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3834193308902106554, guid: f7078b27289c6415a9c768fbcc3f5cb9, type: 3}
   m_PrefabInstance: {fileID: 1899974460}
@@ -1814,7 +1814,7 @@ Canvas:
   m_GameObject: {fileID: 1993088960}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 963194227}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1914,7 +1914,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: -25
+  m_Spacing: -15
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -1935,19 +1935,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardSockets:
-  - {fileID: 2135179825110323123}
-  - {fileID: 1532778912}
-  - {fileID: 1619905751}
-  - {fileID: 1899974463}
+  - {fileID: 2135179825110323126}
+  - {fileID: 1532778915}
+  - {fileID: 1619905754}
+  - {fileID: 1899974466}
   - {fileID: 1295870168}
   - {fileID: 45562814}
-  - {fileID: 873772788}
-  - {fileID: 2142789857}
-  - {fileID: 1223747249}
+  - {fileID: 873772791}
+  - {fileID: 2142789860}
+  - {fileID: 1223747252}
   - {fileID: 199736905}
   - {fileID: 1863618153}
   _rotation: 10
   _height: 50
+  _cardSort: {fileID: 1403824889}
 --- !u!1 &2105666019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2157,7 +2158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d585a4a272b24ec98acb9e3225e0c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2142789857 stripped
+--- !u!114 &2142789860 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3834193308902106554, guid: f7078b27289c6415a9c768fbcc3f5cb9, type: 3}
   m_PrefabInstance: {fileID: 2142789854}
@@ -2305,7 +2306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d585a4a272b24ec98acb9e3225e0c0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2135179825110323123 stripped
+--- !u!114 &2135179825110323126 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3834193308902106554, guid: f7078b27289c6415a9c768fbcc3f5cb9, type: 3}
   m_PrefabInstance: {fileID: 2135179825110323120}

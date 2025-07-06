@@ -10,6 +10,8 @@ namespace CardSorting
     {
         [SerializeField] private CardSettings _cardSettings;
         [SerializeField] private CardView[] _cardViews;
+        [SerializeField] private Transform[] _cardSockets;
+        [SerializeField] private CardLayoutView _cardLayoutView;
         
         private List<Card> _cardList = new()
         {
@@ -48,16 +50,41 @@ namespace CardSorting
         private void RandomCards()
         {
             _cardList = _cardSettings.GetRandomCards();
-            UpdateCards();
+            InitCards();
         }
 
-        private void UpdateCards()
+        private void InitCards()
         {
             for (int i = 0; i < _cardList.Count; i++)
             {
                 var card = _cardList[i];
-                _cardViews[i].Init(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
+                _cardViews[i].Init(card);
+                _cardViews[i].SetImage(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
             }
+        }
+
+        private void UpdateCardPositions()
+        {
+            for (int i = 0; i < _cardList.Count; i++)
+            {
+                var card = _cardList[i];
+                _cardLayoutView.ChangeCardViewIndex(GetCardView(card), i);
+                _cardLayoutView.SetPositionWithTween(i);
+            }
+
+        }
+
+        private CardView GetCardView(Card card)
+        {
+            foreach (var cardView in _cardViews)
+            {
+                if (cardView.Card.Equals(card))
+                {
+                    return cardView;
+                }
+            }
+
+            return _cardViews[0];
         }
         
         #region 7-7-7 Sorting
@@ -97,7 +124,7 @@ namespace CardSorting
             }
 
             _cardList = sortedList;
-            UpdateCards();
+            UpdateCardPositions();
         }
 
         #endregion
@@ -142,7 +169,7 @@ namespace CardSorting
             }
 
             _cardList = sortedList;
-            UpdateCards();
+            UpdateCardPositions();
         }
         
         private void InsertionSortByRank(List<Card> list)
@@ -352,7 +379,7 @@ namespace CardSorting
             }
 
             _cardList = bestCombination;
-            UpdateCards();
+            UpdateCardPositions();
         }
 
         private bool CanCombine(List<Card> cardList1, List<Card> cardList2)

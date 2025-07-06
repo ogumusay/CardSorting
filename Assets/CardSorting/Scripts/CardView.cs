@@ -9,11 +9,18 @@ namespace CardSorting
     {
         [SerializeField] private Image _cardImage;
         [SerializeField] private RectTransform _container;
+        public Card Card { get; private set; }
+        
         public RectTransform Container => _container;
 
-        public void Init(Sprite icon)
+        public void SetImage(Sprite icon)
         {
             _cardImage.sprite = icon;
+        }
+
+        public void Init(Card card)
+        {
+            Card = card;
         }
     }
 }

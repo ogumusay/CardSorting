@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ namespace CardSorting
     public class CardView : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField] private Image _cardImage;
+        [SerializeField] private Image _backgroundImage;
         [SerializeField] private RectTransform _rectTransform;
         public Card Card { get; private set; }
      
@@ -26,6 +28,31 @@ namespace CardSorting
             Card = card;
         }
 
+        [Sirenix.OdinInspector.Button]
+        public void PlayFlipAnimation()
+        {
+            var sequence = DOTween.Sequence();
+            sequence.Append(transform.DOScaleX(0, 0.2f).SetDelay(0.05f).SetEase(Ease.Linear));
+            sequence.AppendCallback(HideBackground);
+            sequence.Append(transform.DOScaleX(1, 0.2f).SetEase(Ease.Linear));
+            sequence.PlayForward();
+        }
+
+        private void HideBackground()
+        {
+            _backgroundImage.gameObject.SetActive(false);
+        }
+        
+        public void ShowBackground()
+        {
+            _backgroundImage.gameObject.SetActive(true);
+        }
+
+        public void SetBackgroundImage(Sprite sprite)
+        {
+            _backgroundImage.sprite = sprite;
+        }
+        
         public void OnBeginDrag(PointerEventData eventData)
         {
             transform.localEulerAngles = Vector3.zero;

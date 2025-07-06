@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 namespace CardSorting
 {
@@ -13,6 +12,9 @@ namespace CardSorting
         [SerializeField] private CardView[] _cardViews;
         [SerializeField] private Transform[] _cardSockets;
         [SerializeField] private CardLayoutView _cardLayoutView;
+        [SerializeField] private Transform _cardDealPoint;
+        [SerializeField] private Image _cardDealImage;
+        private int _currentBackgroundThemeIndex; 
         
         private List<Card> _cardList = new()
         {
@@ -51,12 +53,34 @@ namespace CardSorting
         {
             _cardList = _cardSettings.GetRandomCards();
             InitCards();
+            StartCoroutine(SetInitialCardPositions());
+        }
+
+        private IEnumerator SetInitialCardPositions()
+        {
+            yield return new WaitForEndOfFrame();
+            foreach (var cardView in _cardViews)
+            {
+                cardView.transform.position = _cardDealPoint.position;
+                cardView.ShowBackground();
+            }
+            
+            for (int i = 0; i < _cardList.Count; i++)
+            {
+                yield return new WaitForSeconds(0.1f);
+                var card = _cardList[i];
+                var cardView = GetCardView(card);
+                _cardLayoutView.SetCardViewIndex(cardView, i);
+                _cardLayoutView.SetPositionWithTween(i);
+                cardView.PlayFlipAnimation();
+            }
         }
         
         public void DealNewCards()
         {
             _cardList = _cardSettings.GetRandomCards();
             InitCards();
+            StartCoroutine(SetInitialCardPositions());
         }
 
         private void InitCards()
@@ -99,6 +123,26 @@ namespace CardSorting
             _cardList.RemoveAt(from);
             _cardList.Insert(to, tempCard);
             UpdateCardPositions();
+        }
+
+        public void ChangeTheme()
+        {
+            if (_currentBackgroundThemeIndex < _cardSettings.cardBackgroundThemes.Length - 1)
+            {
+                _currentBackgroundThemeIndex++;
+            }
+            else
+            {
+                _currentBackgroundThemeIndex = 0;
+            }
+
+            var sprite = _cardSettings.cardBackgroundThemes[_currentBackgroundThemeIndex];
+            foreach (var cardView in _cardViews)
+            {
+                cardView.SetBackgroundImage(sprite);
+            }
+
+            _cardDealImage.sprite = sprite;
         }
         
         #region 7-7-7 Sorting

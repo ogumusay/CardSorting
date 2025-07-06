@@ -7,6 +7,7 @@ namespace CardSorting
     public class CardSettings : ScriptableObject
     {
         public CardSuitData[] cardSuits;
+        public Sprite[] cardBackgroundThemes;
 
         public List<Card> GetRandomCards()
         {

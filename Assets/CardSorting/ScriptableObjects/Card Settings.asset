@@ -177,3 +177,6 @@ MonoBehaviour:
     - cardRank: 13
       cardValue: 10
       cardImage: {fileID: 21300000, guid: 08879bc285bae4b49a4ceb040eab5161, type: 3}
+  cardBackgroundThemes:
+  - {fileID: 21300000, guid: 9683f47c3b8b14820a48b96437feabc0, type: 3}
+  - {fileID: 21300000, guid: 60edade63ba7d439ba6547834c174abc, type: 3}

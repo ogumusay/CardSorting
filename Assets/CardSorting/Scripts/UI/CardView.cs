@@ -28,7 +28,6 @@ namespace CardSorting
             Card = card;
         }
 
-        [Sirenix.OdinInspector.Button]
         public void PlayFlipAnimation()
         {
             var sequence = DOTween.Sequence();

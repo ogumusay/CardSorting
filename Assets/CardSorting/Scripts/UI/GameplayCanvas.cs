@@ -12,7 +12,8 @@ namespace CardSorting
         [SerializeField] private CardLayoutView _cardLayoutView;
         [SerializeField] private Transform _cardDealPoint;
         [SerializeField] private Image _cardDealImage;
-        private int _currentBackgroundThemeIndex; 
+        private int _currentBackgroundThemeIndex;
+        private bool _isDealingCards;
         
         #region Injection
 
@@ -41,6 +42,7 @@ namespace CardSorting
         
         private async UniTaskVoid SetInitialCardPositions()
         {
+            _isDealingCards = true;
             await UniTask.Yield();
             await UniTask.Yield();
             foreach (var cardView in _cardViews)
@@ -58,10 +60,15 @@ namespace CardSorting
                 _cardLayoutView.SetPositionWithTween(i);
                 cardView.PlayFlipAnimation();
             }
+
+            await UniTask.Delay(500);
+            _isDealingCards = false;
         }
         
         public void DealNewCards()
         {
+            if (_isDealingCards) return;
+            
             _boardController.GetNewCards();
             InitCards();
             SetInitialCardPositions().Forget();
@@ -69,6 +76,8 @@ namespace CardSorting
         
         public void DealHandExample()
         {
+            if (_isDealingCards) return;
+            
             _boardController.GetHandExample();
             InitCards();
             SetInitialCardPositions().Forget();
@@ -87,18 +96,24 @@ namespace CardSorting
 
         public void RankGrouping()
         {
+            if (_isDealingCards) return;
+            
             _boardController.RankGrouping();
             UpdateCardPositions();
         }
 
         public void ConsecutiveSorting()
         {
+            if (_isDealingCards) return;
+            
             _boardController.ConsecutiveSorting();
             UpdateCardPositions();
         }
 
         public void SmartSorting()
         {
+            if (_isDealingCards) return;
+            
             _boardController.SmartSorting();
             UpdateCardPositions();
         }

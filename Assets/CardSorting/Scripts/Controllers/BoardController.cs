@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -18,22 +19,11 @@ namespace CardSorting
         
         #endregion
         
-        private List<Card> _cardList = new()
-        {
-            new Card(CardSuit.Hearts, CardRank.Ace, 1),
-            new Card(CardSuit.Spades, CardRank.Two, 2),
-            new Card(CardSuit.Diamonds, CardRank.Five, 5),
-            new Card(CardSuit.Hearts, CardRank.Four, 4),
-            new Card(CardSuit.Spades, CardRank.Ace, 1),
-            new Card(CardSuit.Diamonds, CardRank.Three, 3),
-            new Card(CardSuit.Clubs, CardRank.Four, 4),
-            new Card(CardSuit.Spades, CardRank.Four, 4),
-            new Card(CardSuit.Diamonds, CardRank.Ace, 1),
-            new Card(CardSuit.Spades, CardRank.Three, 3),
-            new Card(CardSuit.Diamonds, CardRank.Four, 4),
-        };
-
+        private List<Card> _cardList = new();
         public List<Card> CardList => _cardList;
+
+        private List<Card> _sortedCardList = new();
+        public List<Card> SortedCardList => _sortedCardList;
 
         public void Initialize()
         {
@@ -47,28 +37,42 @@ namespace CardSorting
         
         public void GetNewCards()
         {
+            ResetSortedList();
             _cardList = _cardSettings.GetRandomCards();
+        }
+
+        private void ResetSortedList()
+        {
+            _sortedCardList.Clear();
+            _sortedCardList.AddRange(_cardList);
         }
 
         public void InsertCard(int from, int to)
         {
-            var tempCard = _cardList[from];
-            _cardList.RemoveAt(from);
-            _cardList.Insert(to, tempCard);
+            var tempCard = _sortedCardList[from];
+            _sortedCardList.RemoveAt(from);
+            _sortedCardList.Insert(to, tempCard);
         }
         
         #region 7-7-7 Sorting
         
-        public void SameRankSorting()
+        public SortingResult RankGrouping()
         {
+            ResetSortedList();
+            SortingResult sortingResult = new SortingResult()
+            {
+                GroupedCards = new List<Sequence>(),
+                UngroupedCards = new List<Card>()
+            };
+            
             var cardRankDictionary = new Dictionary<CardRank, List<Card>>();
             var sortedList = new List<Card>();
             var sameRankLists = new List<List<Card>>();
 
-            InsertionSortByRank(_cardList);
+            InsertionSortByRank(_sortedCardList);
             
             // Getting same rank cards
-            foreach (var card in _cardList)
+            foreach (var card in _sortedCardList)
             {
                 if (cardRankDictionary.ContainsKey(card.CardRank))
                 {
@@ -87,35 +91,65 @@ namespace CardSorting
             
             InsertionSortBySameRankQuantity(sameRankLists);
             
-            foreach (var card in sameRankLists)
+            foreach (var cardList in sameRankLists)
             {
-                sortedList.AddRange(card);
+                if (cardList.Count >= GlobalConst.MIN_NUMBER_OF_SORTED_CARDS)
+                {
+                    sortingResult.GroupedCards.Add(new Sequence(){Cards = cardList});
+                }
+                else
+                {
+                    sortingResult.UngroupedCards.AddRange(cardList);
+                }
+                
+                sortedList.AddRange(cardList);
             }
-
-            _cardList = sortedList;
+            
+            _sortedCardList = sortedList;
+            return sortingResult;
         }
 
+        private void InsertionSortBySameRankQuantity(List<List<Card>> list)
+        {
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                for (int j = i + 1; j > 0; j--)
+                {
+                    if (list[j - 1].Count < list[j].Count)
+                    {
+                        (list[j - 1], list[j]) = (list[j], list[j - 1]);
+                    }
+                }
+            }
+        }  
+        
         #endregion
         
         #region 1-2-3 Sorting
         
-        public void SortCardSuits()
+        public SortingResult ConsecutiveSorting()
         {
-            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS) ;
+            ResetSortedList();
+            SortingResult sortingResult = new SortingResult()
+            {
+                GroupedCards = new List<Sequence>(),
+                UngroupedCards = new List<Card>()
+            };
+
+            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS)
+            {
+                { CardSuit.Spades, new List<Card>() },
+                { CardSuit.Diamonds, new List<Card>() },
+                { CardSuit.Hearts, new List<Card>() },
+                { CardSuit.Clubs, new List<Card>() }
+            };
             var consecutiveSortResults = new List<ConsecutiveSortResult>();
             var sortedList = new List<Card>();
             
             // Insert cards by cards suit
-            foreach (var card in _cardList)
+            foreach (var card in _sortedCardList)
             {
-                if (cardSuitDictionary.ContainsKey(card.CardSuit))
-                {
-                    cardSuitDictionary[card.CardSuit].Add(card);
-                }
-                else
-                {
-                    cardSuitDictionary.Add(card.CardSuit, new List<Card>(){card});
-                }
+                cardSuitDictionary[card.CardSuit].Add(card);
             }
 
             // Sort cards by rank and get consecutive sequences
@@ -128,14 +162,20 @@ namespace CardSorting
             
             foreach (var consecutiveSortData in consecutiveSortResults)
             {
-                sortedList.AddRange(consecutiveSortData.ConsecutiveList);
+                if (consecutiveSortData.ConsecutiveList.Count > 0 )
+                {
+                    sortingResult.GroupedCards.Add(new Sequence(){Cards = consecutiveSortData.ConsecutiveList});
+                    sortedList.AddRange(consecutiveSortData.ConsecutiveList);
+                }
             }            
             foreach (var consecutiveSortData in consecutiveSortResults)
             {
+                sortingResult.UngroupedCards.AddRange(consecutiveSortData.NonConsecutiveList);
                 sortedList.AddRange(consecutiveSortData.NonConsecutiveList);
             }
-
-            _cardList = sortedList;
+            
+            _sortedCardList = sortedList;
+            return sortingResult;
         }
         
         private void InsertionSortByRank(List<Card> list)
@@ -151,20 +191,6 @@ namespace CardSorting
                 }
             }
         }             
-        
-        private void InsertionSortBySameRankQuantity(List<List<Card>> list)
-        {
-            for (int i = 0; i < list.Count - 1; i++)
-            {
-                for (int j = i + 1; j > 0; j--)
-                {
-                    if (list[j - 1].Count < list[j].Count)
-                    {
-                        (list[j - 1], list[j]) = (list[j], list[j - 1]);
-                    }
-                }
-            }
-        }           
         
         private ConsecutiveSortResult ConsecutiveSort(List<Card> list)
         {
@@ -244,26 +270,34 @@ namespace CardSorting
 
         #region Smart Sorting
         
-        public void SmartSorting()
+        public SortingResult SmartSorting()
         {
+            ResetSortedList();
+            SortingResult sortingResult = new SortingResult()
+            {
+                GroupedCards = new List<Sequence>(),
+                UngroupedCards = new List<Card>()
+            };
+            
             var allCombinations = new List<List<Card>>();
-            var mergedCombinations = new List<List<Card>>();
+            var mergedCombinations = new List<List<List<Card>>>();
+            var sortedList = new List<Card>();
             
             // Get possible combinations from Consecutive Sorting
-            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS);
-            
-            foreach (var card in _cardList)
+            var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS)
             {
-                if (cardSuitDictionary.ContainsKey(card.CardSuit))
-                {
-                    cardSuitDictionary[card.CardSuit].Add(card);
-                }
-                else
-                {
-                    cardSuitDictionary.Add(card.CardSuit, new List<Card>(){card});
-                }
+                { CardSuit.Spades, new List<Card>() },
+                { CardSuit.Diamonds, new List<Card>() },
+                { CardSuit.Hearts, new List<Card>() },
+                { CardSuit.Clubs, new List<Card>() }
+            };
+            
+            foreach (var card in _sortedCardList)
+            {
+                cardSuitDictionary[card.CardSuit].Add(card);
             }
 
+            var msg3 = "";
             foreach (var card in cardSuitDictionary)
             {
                 InsertionSortByRank(card.Value);
@@ -274,7 +308,7 @@ namespace CardSorting
             // Get possible combinations from Same Rank Sorting
             var cardRankDictionary = new Dictionary<CardRank, List<Card>>();
             
-            foreach (var card in _cardList)
+            foreach (var card in _sortedCardList)
             {
                 if (cardRankDictionary.ContainsKey(card.CardRank))
                 {
@@ -297,19 +331,19 @@ namespace CardSorting
             // Combine all possible combinations
             if (allCombinations.Count == 1)
             {
-                mergedCombinations.Add(allCombinations[0]);
+                mergedCombinations.Add(allCombinations);
             }
             else
             {
                 for (int i = 0; i < allCombinations.Count - 1; i++)
                 {
-                    List<Card> tempCardList = new List<Card>();
-                    tempCardList.AddRange(allCombinations[i]);
+                    var tempCardList = new List<List<Card>>();
+                    tempCardList.Add(allCombinations[i]);
                     for (int j = i + 1; j < allCombinations.Count; j++)
                     {
                         if (CanCombine(tempCardList, allCombinations[j]))
                         {
-                            tempCardList.AddRange(allCombinations[j]);
+                            tempCardList.Add(allCombinations[j]);
                         }
                     }
                 
@@ -318,16 +352,19 @@ namespace CardSorting
             }
             
             // Find the best combination
-            List<Card> bestCombination = new List<Card>();
+            var bestCombination = new List<List<Card>>();
             int bestValuesSum = 0;
             foreach (var combination in mergedCombinations)
             {
                 int valuesSum = 0;
-                foreach (var card in combination)
+                foreach (var cards in combination)
                 {
-                    valuesSum += card.CardValue;
+                    foreach (var card in cards)
+                    {
+                        valuesSum += card.CardValue;
+                    }
                 }
-
+                
                 if (valuesSum > bestValuesSum)
                 {
                     bestCombination = combination;
@@ -335,24 +372,35 @@ namespace CardSorting
                 }
             }
 
-            foreach (var card in _cardList)
+            foreach (var cards in bestCombination)
             {
-                if (!bestCombination.Contains(card))
+                sortingResult.GroupedCards.Add(new Sequence(){Cards = cards});
+                sortedList.AddRange(cards);
+            }
+            
+            foreach (var card in _sortedCardList)
+            {
+                if (!sortedList.Contains(card))
                 {
-                    bestCombination.Add(card);
+                    sortingResult.UngroupedCards.Add(card);
+                    sortedList.Add(card);
                 }
             }
-
-            _cardList = bestCombination;
+            
+            _sortedCardList = sortedList;
+            return sortingResult;
         }
 
-        private bool CanCombine(List<Card> cardList1, List<Card> cardList2)
+        private bool CanCombine(List<List<Card>> cardList1, List<Card> cardList2)
         {
-            foreach (var card in cardList1)
+            foreach (var cards in cardList1)
             {
-                if (cardList2.Contains(card))
+                foreach (var card in cards)
                 {
-                    return false;
+                    if (cardList2.Contains(card))
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -382,5 +430,17 @@ namespace CardSorting
     {
         public List<Card> ConsecutiveList;
         public List<Card> NonConsecutiveList;
+    }
+    
+    public class SortingResult
+    {
+        public List<Sequence> GroupedCards;
+        public List<Card> UngroupedCards;
+    }
+
+    [Serializable]
+    public class Sequence
+    {
+        public List<Card> Cards;
     }
 }

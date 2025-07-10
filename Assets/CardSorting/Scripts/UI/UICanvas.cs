@@ -22,14 +22,14 @@ namespace CardSorting
             _gameplayCanvas.DealNewCards();
         }        
         
-        public void SameRankSorting()
+        public void RankGrouping()
         {
-            _gameplayCanvas.SameRankSorting();
+            _gameplayCanvas.RankGrouping();
         }
 
-        public void SortCardSuits()
+        public void ConsecutiveSorting()
         {
-            _gameplayCanvas.SortCardSuits();
+            _gameplayCanvas.ConsecutiveSorting();
         }
 
         public void SmartSorting()

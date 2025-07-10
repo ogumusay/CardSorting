@@ -49,10 +49,10 @@ namespace CardSorting
                 cardView.ShowBackground();
             }
             
-            for (int i = 0; i < _boardController.CardList.Count; i++)
+            for (int i = 0; i < _boardController.SortedCardList.Count; i++)
             {
                 await UniTask.Delay(100);
-                var card = _boardController.CardList[i];
+                var card = _boardController.SortedCardList[i];
                 var cardView = GetCardView(card);
                 _cardLayoutView.SetCardViewIndex(cardView, i);
                 _cardLayoutView.SetPositionWithTween(i);
@@ -69,24 +69,24 @@ namespace CardSorting
         
         private void InitCards()
         {
-            for (int i = 0; i < _boardController.CardList.Count; i++)
+            for (int i = 0; i < _boardController.SortedCardList.Count; i++)
             {
-                var card = _boardController.CardList[i];
+                var card = _boardController.SortedCardList[i];
                 _cardViews[i].Init(card);
                 _cardViews[i].SetImage(_cardSettings.GetCardImage(card.CardSuit, card.CardRank));
                 _cardLayoutView.SetCardViewIndex(_cardViews[i], i);
             }
         }
 
-        public void SameRankSorting()
+        public void RankGrouping()
         {
-            _boardController.SameRankSorting();
+            _boardController.RankGrouping();
             UpdateCardPositions();
         }
 
-        public void SortCardSuits()
+        public void ConsecutiveSorting()
         {
-            _boardController.SortCardSuits();
+            _boardController.ConsecutiveSorting();
             UpdateCardPositions();
         }
 
@@ -104,9 +104,9 @@ namespace CardSorting
 
         private void UpdateCardPositions()
         {
-            for (int i = 0; i < _boardController.CardList.Count; i++)
+            for (int i = 0; i < _boardController.SortedCardList.Count; i++)
             {
-                var card = _boardController.CardList[i];
+                var card = _boardController.SortedCardList[i];
                 _cardLayoutView.SetCardViewIndex(GetCardView(card), i);
                 _cardLayoutView.SetPositionWithTween(i);
             }

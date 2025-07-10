@@ -49,5 +49,22 @@ namespace CardSorting
 
             return null;
         }
+
+        public Card GetCard(CardSuit cardSuit, CardRank cardRank)
+        {
+            foreach (var cardSuitData in cardSuits)
+            {
+                if (cardSuitData.cardSuit != cardSuit) continue;
+                
+                foreach (var cardRankData in cardSuitData.cardRanks)
+                {
+                    if (cardRank != cardRankData.cardRank) continue;
+
+                    return new Card(cardSuit, cardRank, cardRankData.cardValue);
+                }
+            }
+
+            return new Card(CardSuit.Spades, CardRank.Ace, 1);
+        }
     }
 }

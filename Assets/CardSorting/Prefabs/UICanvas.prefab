@@ -631,7 +631,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7490101312939691983}
         m_TargetAssemblyTypeName: CardSorting.UICanvas, Assembly-CSharp
-        m_MethodName: SameRankSorting
+        m_MethodName: RankGrouping
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1031,7 +1031,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7490101312939691983}
         m_TargetAssemblyTypeName: CardSorting.UICanvas, Assembly-CSharp
-        m_MethodName: SortCardSuits
+        m_MethodName: ConsecutiveSorting
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

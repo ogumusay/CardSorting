@@ -20,6 +20,11 @@ namespace CardSorting
         public void DealNewCards()
         {
             _gameplayCanvas.DealNewCards();
+        }           
+        
+        public void DealHandExample()
+        {
+            _gameplayCanvas.DealHandExample();
         }        
         
         public void RankGrouping()

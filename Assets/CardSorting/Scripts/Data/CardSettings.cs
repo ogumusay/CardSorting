@@ -21,7 +21,7 @@ namespace CardSorting
                 }
             }
 
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < GlobalConst.HAND_SIZE; i++)
             {
                 var rnd = Random.Range(0, list.Count);
                 rndList.Add(list[rnd]);

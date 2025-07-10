@@ -65,6 +65,13 @@ namespace CardSorting
             _boardController.GetNewCards();
             InitCards();
             SetInitialCardPositions().Forget();
+        }        
+        
+        public void DealHandExample()
+        {
+            _boardController.GetHandExample();
+            InitCards();
+            SetInitialCardPositions().Forget();
         }
         
         private void InitCards()

@@ -24,6 +24,10 @@ namespace CardSorting
 
         private List<Card> _sortedCardList = new();
         public List<Card> SortedCardList => _sortedCardList;
+        
+        private SortingResult _cachedConsecutiveSortedCardList;
+        private SortingResult _cachedRankGroupedSortedCardList;
+        private SortingResult _cachedSmartSortedCardList;
 
         public void Initialize()
         {
@@ -39,6 +43,7 @@ namespace CardSorting
         {
             _cardList = _cardSettings.GetRandomCards();
             ResetSortedList();
+            ClearCache();
         }        
         
         public void GetHandExample()
@@ -58,6 +63,7 @@ namespace CardSorting
                 _cardSettings.GetCard(CardSuit.Diamonds, CardRank.Four)
             };
             ResetSortedList();
+            ClearCache();
         }
 
         private void ResetSortedList()
@@ -72,11 +78,39 @@ namespace CardSorting
             _sortedCardList.RemoveAt(from);
             _sortedCardList.Insert(to, tempCard);
         }
+
+        private List<Card> GetSortedList(SortingResult sortingResult)
+        {
+            var sortedList = new List<Card>();
+            foreach (var sequence in sortingResult.GroupedCards)
+            {
+                sortedList.AddRange(sequence.Cards);
+            }
+            foreach (var card in sortingResult.UngroupedCards)
+            {
+                sortedList.Add(card);
+            }
+
+            return sortedList;
+        }
+
+        private void ClearCache()
+        {
+            _cachedConsecutiveSortedCardList = null;
+            _cachedRankGroupedSortedCardList = null;
+            _cachedSmartSortedCardList = null;
+        }
         
         #region 7-7-7 Sorting
         
         public SortingResult RankGrouping()
         {
+            if (_cachedRankGroupedSortedCardList != null)
+            {
+                _sortedCardList = GetSortedList(_cachedRankGroupedSortedCardList);
+                return _cachedRankGroupedSortedCardList;
+            }
+
             ResetSortedList();
             SortingResult sortingResult = new SortingResult()
             {
@@ -85,7 +119,6 @@ namespace CardSorting
             };
             
             var cardRankDictionary = new Dictionary<CardRank, List<Card>>();
-            var sortedList = new List<Card>();
             var sameRankLists = new List<List<Card>>();
 
             InsertionSortByRank(_sortedCardList);
@@ -120,11 +153,10 @@ namespace CardSorting
                 {
                     sortingResult.UngroupedCards.AddRange(cardList);
                 }
-                
-                sortedList.AddRange(cardList);
             }
-            
-            _sortedCardList = sortedList;
+
+            _cachedRankGroupedSortedCardList = sortingResult;
+            _sortedCardList = GetSortedList(sortingResult);
             return sortingResult;
         }
 
@@ -148,6 +180,12 @@ namespace CardSorting
         
         public SortingResult ConsecutiveSorting()
         {
+            if (_cachedConsecutiveSortedCardList != null)
+            {
+                _sortedCardList = GetSortedList(_cachedConsecutiveSortedCardList);
+                return _cachedConsecutiveSortedCardList;
+            }
+            
             ResetSortedList();
             SortingResult sortingResult = new SortingResult()
             {
@@ -163,7 +201,6 @@ namespace CardSorting
                 { CardSuit.Clubs, new List<Card>() }
             };
             var consecutiveSortResults = new List<ConsecutiveSortResult>();
-            var sortedList = new List<Card>();
             
             // Insert cards by cards suit
             foreach (var card in _sortedCardList)
@@ -184,16 +221,15 @@ namespace CardSorting
                 if (consecutiveSortData.ConsecutiveList.Count > 0 )
                 {
                     sortingResult.GroupedCards.Add(new Sequence(){Cards = consecutiveSortData.ConsecutiveList});
-                    sortedList.AddRange(consecutiveSortData.ConsecutiveList);
                 }
             }            
             foreach (var consecutiveSortData in consecutiveSortResults)
             {
                 sortingResult.UngroupedCards.AddRange(consecutiveSortData.NonConsecutiveList);
-                sortedList.AddRange(consecutiveSortData.NonConsecutiveList);
             }
-            
-            _sortedCardList = sortedList;
+
+            _cachedConsecutiveSortedCardList = sortingResult;
+            _sortedCardList = GetSortedList(sortingResult);
             return sortingResult;
         }
         
@@ -291,6 +327,12 @@ namespace CardSorting
         
         public SortingResult SmartSorting()
         {
+            if (_cachedSmartSortedCardList != null)
+            {
+                _sortedCardList = GetSortedList(_cachedSmartSortedCardList);
+                return _cachedSmartSortedCardList;
+            }
+            
             ResetSortedList();
             SortingResult sortingResult = new SortingResult()
             {
@@ -300,7 +342,6 @@ namespace CardSorting
             
             var allCombinations = new List<Sequence>();
             var mergedCombinations = new List<List<Sequence>>();
-            var sortedList = new List<Card>();
             
             // Get possible combinations from Consecutive Sorting
             var cardSuitDictionary = new Dictionary<CardSuit, List<Card>>(GlobalConst.NUMBER_OF_CARD_SUITS)
@@ -390,22 +431,23 @@ namespace CardSorting
                 }
             }
 
+            var groupedCards = new List<Card>();
             foreach (var sequence in bestCombination)
             {
                 sortingResult.GroupedCards.Add(sequence);
-                sortedList.AddRange(sequence.Cards);
+                groupedCards.AddRange(sequence.Cards);
             }
             
-            foreach (var card in _sortedCardList)
+            foreach (var card in _cardList)
             {
-                if (!sortedList.Contains(card))
+                if (!groupedCards.Contains(card))
                 {
                     sortingResult.UngroupedCards.Add(card);
-                    sortedList.Add(card);
                 }
             }
-            
-            _sortedCardList = sortedList;
+
+            _cachedSmartSortedCardList = sortingResult;
+            _sortedCardList = GetSortedList(sortingResult);
             return sortingResult;
         }
 

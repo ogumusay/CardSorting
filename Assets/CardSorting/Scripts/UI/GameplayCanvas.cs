@@ -13,7 +13,7 @@ namespace CardSorting
         [SerializeField] private Transform _cardDealPoint;
         [SerializeField] private Image _cardDealImage;
         private int _currentBackgroundThemeIndex;
-        private bool _isDealingCards;
+        private bool _isTweening;
         
         #region Injection
 
@@ -40,11 +40,13 @@ namespace CardSorting
             
         }
         
-        private async UniTaskVoid SetInitialCardPositions()
+        private async UniTaskVoid PlayDealingCardsAnimation()
         {
-            _isDealingCards = true;
+            _isTweening = true;
+            
             await UniTask.Yield();
             await UniTask.Yield();
+            InitCards();
             foreach (var cardView in _cardViews)
             {
                 cardView.transform.position = _cardDealPoint.position;
@@ -62,25 +64,23 @@ namespace CardSorting
             }
 
             await UniTask.Delay(500);
-            _isDealingCards = false;
+            _isTweening = false;
         }
         
         public void DealNewCards()
         {
-            if (_isDealingCards) return;
+            if (_isTweening) return;
             
             _boardController.GetNewCards();
-            InitCards();
-            SetInitialCardPositions().Forget();
+            PlayDealingCardsAnimation().Forget();
         }        
         
         public void DealHandExample()
         {
-            if (_isDealingCards) return;
+            if (_isTweening) return;
             
             _boardController.GetHandExample();
-            InitCards();
-            SetInitialCardPositions().Forget();
+            PlayDealingCardsAnimation().Forget();
         }
         
         private void InitCards()
@@ -96,42 +96,46 @@ namespace CardSorting
 
         public void RankGrouping()
         {
-            if (_isDealingCards) return;
+            if (_isTweening) return;
             
             _boardController.RankGrouping();
-            UpdateCardPositions();
+            UpdateCardPositions().Forget();
         }
 
         public void ConsecutiveSorting()
         {
-            if (_isDealingCards) return;
+            if (_isTweening) return;
             
             _boardController.ConsecutiveSorting();
-            UpdateCardPositions();
+            UpdateCardPositions().Forget();
         }
 
         public void SmartSorting()
         {
-            if (_isDealingCards) return;
+            if (_isTweening) return;
             
             _boardController.SmartSorting();
-            UpdateCardPositions();
+            UpdateCardPositions().Forget();
         }
 
         public void InsertCard(int from, int to)
         {
             _boardController.InsertCard(from, to);
-            UpdateCardPositions();
+            UpdateCardPositions().Forget();
         }
 
-        private void UpdateCardPositions()
+        private async UniTaskVoid UpdateCardPositions()
         {
+            _isTweening = true;
             for (int i = 0; i < _boardController.SortedCardList.Count; i++)
             {
                 var card = _boardController.SortedCardList[i];
                 _cardLayoutView.SetCardViewIndex(GetCardView(card), i);
                 _cardLayoutView.SetPositionWithTween(i);
             }
+
+            await UniTask.Delay(350);
+            _isTweening = false;
         }
         
         public void ChangeTheme()

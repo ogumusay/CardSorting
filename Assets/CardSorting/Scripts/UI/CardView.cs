@@ -17,7 +17,6 @@ namespace CardSorting
         public static CardViewDragHandler onDrop;
         
         public RectTransform RectTransform => _rectTransform;
-        private DG.Tweening.Sequence _sequence;
         
         public void SetImage(Sprite icon)
         {
@@ -31,15 +30,11 @@ namespace CardSorting
 
         public void PlayFlipAnimation()
         {
-            if (_sequence != null && _sequence.IsPlaying())
-            {
-                _sequence.Kill();
-            }
-            _sequence = DOTween.Sequence();
-            _sequence.Append(transform.DOScaleX(0, 0.2f).SetDelay(0.05f).SetEase(Ease.Linear));
-            _sequence.AppendCallback(HideBackground);
-            _sequence.Append(transform.DOScaleX(1, 0.2f).SetEase(Ease.Linear));
-            _sequence.PlayForward();
+            var sequence = DOTween.Sequence();
+            sequence.Append(transform.DOScaleX(0, 0.2f).SetDelay(0.05f).SetEase(Ease.Linear));
+            sequence.AppendCallback(HideBackground);
+            sequence.Append(transform.DOScaleX(1, 0.2f).SetEase(Ease.Linear));
+            sequence.PlayForward();
         }
 
         private void HideBackground()

@@ -142,7 +142,7 @@ namespace CardSorting.Test
 
         private bool AreEqual(SortingResult expectedResult, SortingResult result)
         {
-            var ungroupedList = result.UngroupedCards.OrderBy(card => card.CardRank).ThenBy(card => card.CardSuit);
+            var ungroupedList = result.UngroupedCards.OrderBy(card => card.CardSuit).ThenBy(card => card.CardRank);
             bool ungroupedListEquals = ungroupedList.SequenceEqual(expectedResult.UngroupedCards);
             if (!ungroupedListEquals)
             {
@@ -152,7 +152,7 @@ namespace CardSorting.Test
             for (int i = 0; i < result.GroupedCards.Count; i++)
             {
                 var sequence = result.GroupedCards[i];
-                result.GroupedCards[i].Cards = sequence.Cards.OrderBy(card => card.CardRank).ThenBy(card => card.CardSuit).ToList();
+                result.GroupedCards[i].Cards = sequence.Cards.OrderBy(card => card.CardSuit).ThenBy(card => card.CardRank).ToList();
             }
             
             foreach (var expectedCards in expectedResult.GroupedCards)

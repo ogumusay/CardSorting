@@ -429,6 +429,11 @@ namespace CardSorting
                     bestCombination = combination;
                     bestValuesSum = valuesSum;
                 }
+                else if (valuesSum == bestValuesSum && combination.Count < bestCombination.Count)
+                {
+                    bestCombination = combination;
+                    bestValuesSum = valuesSum;
+                }
             }
 
             var groupedCards = new List<Card>();
